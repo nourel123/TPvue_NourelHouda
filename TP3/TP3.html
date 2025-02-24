@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body {
+            
+            background-color: rgb(244, 244, 244);
+            text-align: center;
+            margin: 20px;
+        }
+        h1 {
+            color: rgb(51, 51, 51);
+        }
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+        .btn {
+            margin: 5px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        
+        li {
+            background: white;
+            margin: 10px auto;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 50%;
+        }
+        button {
+            margin-left: 10px;
+            padding: 5px;
+            border: none;
+            background-color: rgb(174, 175, 174);
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: rgb(86, 90, 87);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Task List</h1>
+        <p>Total tasks: {{ totalTasks }}</p>
+        
+        <button @click="filter = 'all'" :class="{ active: filter === 'all' }" class="btn">All</button>
+        <button @click="filter = 'todo'" :class="{ active: filter === 'todo' }" class="btn">To Do</button>
+        <button @click="filter = 'completed'" :class="{ active: filter === 'completed' }" class="btn">Completed</button>
+        
+        <ul>
+            <li v-for="task in filteredTasks" :key="task.id">
+                <span :class="{ completed: task.completed }">{{ task.title }}</span>
+                <button v-show="!task.completed" @click="completed(task)">Mark as Done</button>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        fetch('tasklist.json')
+            .then(response => response.json())
+            .then(data => {
+                const app = Vue.createApp({
+                    data() {
+                        return {
+                            tasks: data,
+                            filter: 'all'
+                        };
+                    },
+                    computed: {
+                        filteredTasks() {
+                            if (this.filter === 'todo') return this.tasks.filter(task => !task.completed);
+                            if (this.filter === 'completed') return this.tasks.filter(task => task.completed);
+                            return this.tasks;
+                        },
+                        totalTasks() {
+                            return this.tasks.length;
+                        }
+                    },
+                    methods: {
+                        completed(task) {
+                            task.completed = true;
+                        }
+                    }
+                });
+                app.mount('#app');
+            });
+    </script>
+</body>
+
+</html>
