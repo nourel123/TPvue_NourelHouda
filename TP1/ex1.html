@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<title>Manipulation de Vue</title>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+
+<div id="monapp">
+    <button @click="titre = 'Cliqué!'">{{ titre }}</button>
+</div>
+
+<script>
+const appli = {
+    data() {
+        return {
+            titre: "Cliquez moi!"
+        };
+    }
+};
+
+Vue.createApp(appli).mount("#monapp");
+</script>
+
+</body>
+</html>

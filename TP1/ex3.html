@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<title>Manipulation de vue</title>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js""></script>
+</head>
+<body>
+
+<div id="monapp">
+<input type="text" v-model="userinput" @input="check">
+<p v-if="showmessage">les espaces ne sont pas autoriser</p>
+</div>
+
+
+<script>
+	const appli = {
+		data () {
+				return {
+					
+                    userinput:'',
+                    showmessage:false,
+
+				}
+			},
+        methods:{
+            check(){
+                this.showmessage=this.userinput.includes(' ');
+            }
+
+        }
+	};
+	
+Vue.createApp(appli).mount("#monapp");
+</script>
+
+</body>
+</html>
