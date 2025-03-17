@@ -53,7 +53,7 @@
         </fieldset>
         
         <div v-for="p in filteredPersons" :key="p.name.last" :class="{'misEnForme': misEnForme}">
-            <img :src="p.picture.large" :alt="p.name.first" :class="photoClass">
+            <img :src="p.picture.large"  :class="photoClass">
             <p><strong>{{ p.name.first }} {{ p.name.last }}</strong></p>
             <p>Pays : {{ p.location.country }}</p>
             <div v-if="showtel">
@@ -257,12 +257,7 @@
                     return this.photosize === "1" ? 'petit' : this.photosize === "2" ? 'moyen' : 'grand';
                 }
             },
-            mounted() {
-                fetch('personnes.json')
-                    .then(response => response.json())
-                    .then(data => { this.personnes = data; })
-                    .catch(error => console.error('Erreur de chargement des données :', error));
-            }
+          
         
         });
         app.mount('#app');
